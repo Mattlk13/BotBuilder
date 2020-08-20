@@ -20,6 +20,7 @@ SUPPORTABILITY_LABEL = 'supportability'
 CUSTOMER_REPLIED_TO_LABEL = 'customer-replied-to'
 ADAPTIVE_LABEL = 'adaptive'
 BUG_LABEL = 'bug'
+EXEMPT_FROM_DAILY_DRI_REPORT_LABEL = 'ExemptFromDailyDRIReport'
 MILESTONE_LABELS = [
     '4.5',
     '4.6',
@@ -29,6 +30,7 @@ MILESTONE_LABELS = [
     'R8',
     'R9',
     'R10',
+    'R11',
     'Backlog',
 ]
 
@@ -114,6 +116,9 @@ def filter_customer_replied_label(issue):
 
 def filter_adaptive_label(issue):
     return any(label.name == ADAPTIVE_LABEL for label in issue.labels)
+
+def filter_exempt_from_dri_label(issue):
+    return any(label.name == EXEMPT_FROM_DAILY_DRI_REPORT_LABEL for label in issue.labels)
 
 def filter_milestone_label(issue):
     return any(label.name in MILESTONE_LABELS or label.name == BUG_LABEL for label in issue.labels)

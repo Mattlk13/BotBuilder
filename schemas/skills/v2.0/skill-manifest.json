@@ -1,16 +1,19 @@
 {
-    "$id": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.1.preview-0.json",
+    "$id": "https://schemas.botframework.com/schemas/skills/skill-manifest.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Skill Manifest Schema (Preview)",
-    "description": "A schema for Bot Framework skill manifests (Preview)",
+    "$version": "2.0.1",
+    "title": "Skill Manifest Schema",
+    "description": "A schema for Bot Framework skill manifests",
     "type": "object",
     "required": [
         "$id",
+        "$schema",
         "name",
         "version",
         "publisherName",
         "endpoints"
     ],
+    "additionalProperties": false,
     "properties": {
         "$schema": {
             "type": "string",
@@ -69,65 +72,9 @@
                 "$ref": "#/definitions/endpoint"
             }
         },
-        "dispatchModels": {
-            "type": "object",
-            "description": "Language models and intents for the skill",
-            "properties": {
-                "languages": {
-                    "type": "object",
-                    "description": "List of languages supported by the skill",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "oneOf": [
-                            {
-                                "type": "array",
-                                "minItems": 1,
-                                "uniqueItems": true,
-                                "description": "List of language models supported by the skill",
-                                "items": {
-                                    "$ref": "#/definitions/languageModel"
-                                }                               
-                            }
-                        ]
-                    }
-                },
-                "intents": {
-                    "type": "object",
-                    "description": "A list of intents and a reference to activity that the skill expects for that intent",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uri-reference",
-                                "description": "Where does this show up?"
-                            }
-                        ]
-                    }
-                }
-            },
-            "additionalProperties": false
-        },
         "activities": {
             "type": "object",
             "description": "Definition for the activities accepted by the skill",
-            "additionalProperties": {
-                "anyOf": [
-                    {
-                        "$ref": "#/definitions/eventActivity"
-                    },
-                    {
-                        "$ref": "#/definitions/invokeActivity"
-                    },
-                    {
-                        "$ref": "#/definitions/messageActivity"
-                    }
-                ]
-            }
-        },
-        "activitiesSent": {
-            "type": "object",
-            "description": "Definition for the activities sent proactively by the skill",
             "additionalProperties": {
                 "anyOf": [
                     {
@@ -150,11 +97,11 @@
             }
         }
     },
-    "additionalProperties": false,
     "definitions": {
         "endpoint": {
             "type": "object",
             "description": "Skill endpoint definition",
+            "additionalProperties": false,
             "required": [
                 "name",
                 "endpointUrl",
@@ -194,8 +141,7 @@
                     "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$",
                     "description": "The Microsoft AppId for the skill. This app ID is used to authenticate requests"
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "eventActivity": {
             "type": "object",
@@ -204,6 +150,7 @@
                 "type",
                 "name"
             ],
+            "additionalProperties": false,
             "properties": {
                 "type": {
                     "type": "string",
@@ -234,8 +181,7 @@
                     "description": "The JsonSchema definition of the shape of the resultValue that this event may produce",
                     "$ref": "http://json-schema.org/draft-07/schema#"
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "invokeActivity": {
             "type": "object",
@@ -244,6 +190,7 @@
                 "type",
                 "name"
             ],
+            "additionalProperties": false,
             "properties": {
                 "type": {
                     "type": "string",
@@ -274,8 +221,7 @@
                     "description": "The JsonSchema definition of the shape of the resultValue that this event may produce",
                     "$ref": "http://json-schema.org/draft-07/schema#"
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "messageActivity": {
             "type": "object",
@@ -283,6 +229,7 @@
             "required": [
                 "type"
             ],
+            "additionalProperties": false,
             "properties": {
                 "type": {
                     "type": "string",
@@ -307,43 +254,7 @@
                     "description": "The JsonSchema definition of the shape of the resultValue that this message may produce",
                     "$ref": "http://json-schema.org/draft-07/schema#"
                 }
-            },
-            "additionalProperties": false
-        },
-        "languageModel": {
-            "type": "object",
-            "description": "A language model for a given culture. The name is a combination of an ISO 639 two-letter lowercase culture code associated with a language and an ISO 3166 two-letter uppercase subculture code associated with a country or region",
-            "required": [
-                "id",
-                "name",
-                "contentType",
-                "url"
-            ],
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": "Unique identifier for the language model"
-                },
-                "name": {
-                    "type": "string",
-                    "description": "Name for the language model"
-                },
-                "contentType": {
-                    "type": "string",
-                    "description": "Type of the language model"
-                },
-                "url": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "A URL for the location of the language model file"
-                },
-                "description": {
-                    "type": "string",
-                    "title": "Description",
-                    "description": "Description for the language model"
-                }
-            },
-            "additionalProperties": false
-        }        
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+    "$schema": "https://schemas.botframework.com/schemas/skills/v2.1/skill-manifest.json",
     "$id": "SkillBot",
     "name": "Sample skill definition that can handle multiple types of activities",
     "version": "1.0",
@@ -18,21 +18,71 @@
         {
             "name": "americas",
             "protocol": "BotFrameworkV3",
-            "description": "Production  endpoint for SkillBot in the Americas",
+            "description": "Production endpoint for SkillBot in the Americas",
             "endpointUrl": "http://myskill.contoso.com/api/messages",
             "msAppId": "00000000-0000-0000-0000-000000000000"
         },
         {
             "name": "eu",
             "protocol": "BotFrameworkV3",
-            "description": "Production  endpoint for SkillBot in Europe",
+            "description": "Production endpoint for SkillBot in Europe",
             "endpointUrl": "http://myskill.contoso.com/api/messages",
             "msAppId": "11111111-0000-0000-0000-000000000000"
         }
     ],
+    "dispatchModels": {
+        "languages": {
+            "en": [
+                {
+                    "name": "SkillBot LU (English)",
+                    "contentType": "application/lu",
+                    "url": "http://sample.com/SkillBot-en.lu",
+                    "description": "English language model for the skill"
+                },
+                {
+                    "name": "SkillBot QnA LU (English)",
+                    "contentType": "application/qna",
+                    "url": "http://sample.com/SkillBot-QnA-en.qna",
+                    "description": "English language model for the skill (QnAMaker)"
+                }
+            ],
+            "es-ES": [
+                {
+                    "name": "SkillBot LU (Spanish-Spain)",
+                    "contentType": "application/lu",
+                    "url": "http://sample.com/SkillBot-es-ES.lu",
+                    "description": "Spanish (Spain) language model for the skill"
+                },
+                {
+                    "name": "SkillBot QnA LU (Spanish-Spain)",
+                    "contentType": "application/qna",
+                    "url": "http://sample.com/SkillBot-QnA-es-ES.qna",
+                    "description": "Spanish (Spain) language model for the skill (QnAMaker)"
+                }
+            ],
+            "es-MX": [
+                {
+                    "name": "SkillBot LU (Spanish-Mexico)",
+                    "contentType": "application/lu",
+                    "url": "http://sample.com/SkillBot-es-MX.lu",
+                    "description": "Spanish (Mexico) language model for the skill"
+                },
+                {
+                    "name": "SkillBot QnA LU (Spanish-Mexico)",
+                    "contentType": "application/qna",
+                    "url": "http://sample.com/SkillBot-QnA-es-MX.qna",
+                    "description": "Spanish (Mexico) language model for the skill (QnAMaker)"
+                }
+            ]
+        },
+        "intents": [
+            "bookFlight",
+            "getWeather"
+        ]
+    },
     "activities": {
         "bookFlight": {
-            "description": "Books a light",
+            "description": "Books a flight",
             "type": "event",
             "name": "BookFlight",
             "value": {
@@ -56,6 +106,12 @@
         "message": {
             "type": "message",
             "description": "Receives the user's' utterance and attempts to resolve it using the skill's LU models"
+        },
+        "typing": {
+            "type": "typing"
+        },
+        "conversationUpdate": {
+            "type": "conversationUpdate"
         }
     },
     "definitions": {
@@ -83,7 +139,7 @@
                     "description": "this is the destination city for the flight"
                 },
                 "date": {
-                    "type": "date",
+                    "type": "string",
                     "description": "The date for the flight in YYYY-MM-DD format"
                 }
             }
@@ -112,6 +168,30 @@
                 "postalCode": {
                     "type": "string",
                     "title": "Postal code"
+                }
+            }
+        }
+    },
+    "activitiesSent": {
+        "flightUpdated": {
+            "type": "event",
+            "name": "FlightUpdated",
+            "description": "Event which is sent by the skill when there is an update in flight info",
+            "value": {
+                "type": "object",
+                "description": "Flight update information",
+                "properties": {
+                    "flightNumber": {
+                        "type": "string"
+                    },
+                    "departureDate": {
+                        "type": "string",
+                        "description": "The departure date for the flight in YYYY-MM-DD format"
+                    },
+                    "departureTime": {
+                        "type": "string",
+                        "description": "The departure time for the flight in HH-MM format"
+                    }
                 }
             }
         }
